@@ -8,6 +8,7 @@ setDialog::setDialog(QWidget *parent) :
     ui->setupUi(this);
     second=10;
     ui->shuffle->setTristate(false);
+    setWindowTitle("设置");
 }
 
 setDialog::~setDialog()

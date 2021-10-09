@@ -13,7 +13,7 @@ transpaper::transpaper(QWidget *parent) : QWidget(parent)
     this->setAcceptDrops(true);
     //menu
     QList<QString> names;
-    names<<"paste"<<"close"<<"set"<<"alter";
+    names<<"粘贴"<<"关闭"<<"设置"<<"切换";
     QList<QRgb> cs;
     for(int i=0;i<4;i++){
         cs.append(qRgb(135,206,235));
@@ -32,6 +32,7 @@ transpaper::transpaper(QWidget *parent) : QWidget(parent)
         createDeskicon(i,fileInfo,100*((i*100)/(desktop_height-100)),(i*100)%(desktop_height-100));
         connect(list_icon.at(i), SIGNAL(signal_delete(int)), this, SLOT(deletetotrash(int)));
     }
+    qDebug()<<Desktop_icon::stdPath;
 }
 void transpaper::disc_menu(int index){
     if(index==0) paste();
@@ -70,9 +71,10 @@ void transpaper::paste(){
         }
         createDeskicon(list_icon.size(), res,100,100);
         connect(list_icon.at(list_icon.size()-1), SIGNAL(signal_delete(int)), this, SLOT(deletetotrash(int)));
+        list_icon.at(list_icon.size()-1)->discbtn->set_color(cst);
         QString order="cp ";
         if(res.isDir()) order="cp -r ";
-        order=order+"\""+fileName+"\" "+Desktop_icon::stdPath+"/Desktop";
+        order=order+"\""+fileName+"\" "+Desktop_icon::stdPath;
         QProcess::execute(order);
     }
 }
@@ -91,12 +93,12 @@ void transpaper::createDeskicon(int i,QFileInfo fileInfo,int x,int y){
     tmp->move(x,y);
 }
 void transpaper::deletetotrash(int i){
-    QProcess::execute("rm -rf "+Desktop_icon::stdPath+"/Desktop/"+list_icon.at(i)->filename);
+    QProcess::execute("rm -rf "+Desktop_icon::stdPath+"//"+list_icon.at(i)->filename);
      list_icon.at(i)->close();
 }
 QFileInfoList transpaper::getfile()
 {
-    QDir dir(Desktop_icon::stdPath+"/Desktop");
+    QDir dir(Desktop_icon::stdPath);
 
     //获取filePath下所有文件夹和文件
     dir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);//文件夹|文件|不包含./和../
@@ -113,9 +115,9 @@ void transpaper::mousePressEvent(QMouseEvent *event){
         int mid=ra-arc/2;
         QList<QPoint> textp;
         textp.append(QPoint(-22,-mid));
-        textp.append(QPoint(-24,mid+10));
+        textp.append(QPoint(-10,mid+15));
         textp.append(QPoint(-20,mid+10));
-        textp.append(QPoint(-23,-mid));
+        textp.append(QPoint(-10,-mid+5));
         disc_but->setValue(ra,arc,20,textp);
         disc_but->move(event->globalPos()-disc_but->center);
         disc_but->setFocus();
@@ -127,6 +129,7 @@ void transpaper::right_button_slot(QList<QRgb> cs){
     for(int i=4;i<8;i++) tmpcs.append(cs.at(i));
     disc_but->set_color(tmpcs);
 
+    cst=cs;
     for(int i=0;i<list_icon.size();i++){
         list_icon.at(i)->discbtn->set_color(cs);
     }

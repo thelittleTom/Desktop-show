@@ -44,6 +44,7 @@ public slots:
      void disc_menu(int);
     void  right_button_slot(QList<QRgb> );
 private:
+    QList<QRgb> cst;
     QList<Desktop_icon*> list_icon;
     QList<disc_button*> list_disc;
     disc_button *disc_but;

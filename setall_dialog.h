@@ -22,6 +22,7 @@ private:
     Ui::setall_dialog *ui;
 signals:
     void signal_mute(int );
+    void signal_maxsize_stop(int);
     void signal_right_button(QList<QRgb>);
 };
 

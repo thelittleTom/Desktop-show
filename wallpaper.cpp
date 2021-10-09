@@ -12,9 +12,16 @@ wallpaper::wallpaper(QWidget *parent) : QMainWindow(parent)
     ifshuffle=false;
     sec=10;
     timer = new QTimer(this);
+    timer_win=new QTimer(this);
 
     timer->setTimerType(Qt::VeryCoarseTimer);
     connect(timer, SIGNAL(timeout()), this, SLOT(next_wallpaper()));
+
+    timer_win->setTimerType(Qt::VeryCoarseTimer);
+    connect(timer_win, SIGNAL(timeout()), &wo, SLOT(ifmaxscreen()));
+
+    connect(&wo,SIGNAL(signal_true()),this,SLOT(slot_stop()));
+    connect(&wo,SIGNAL(signal_false()),this,SLOT(slot_start()));
 
     first=true;
     list_current=0;
@@ -24,9 +31,22 @@ wallpaper::wallpaper(QWidget *parent) : QMainWindow(parent)
     int desktop_height = rect.height();
    this->setWindowFlags(Qt::Tool|Qt::FramelessWindowHint|Qt::WindowStaysOnBottomHint );
     this->resize(desktop_width,desktop_height);
-
-
 }
+void wallpaper::slot_stop(){
+    if(ifstart){
+        if(process){ process->write("pause\n"); ifstart=!ifstart;}
+        timer->stop();
+        qDebug()<<"stop";
+    }
+}
+void wallpaper::slot_start(){
+    if(!ifstart){
+        if(process){ process->write("pause\n"); ifstart=!ifstart;}
+        timer->start(1000*sec);
+        qDebug()<<"start";
+    }
+}
+
 wallpaper::~wallpaper(){
   this->process->kill();
 }
@@ -120,6 +140,14 @@ void wallpaper::mute_slot(int state){
     }
 
     else {ifmute=false;if(process)process->write("mute 0\n");}
+}
+void wallpaper::maxsize_stop_slot(int state ){
+    if(state){
+        timer_win->stop();
+        timer_win->start(1000);
+    }else{
+        timer_win->stop();
+    }
 }
 void wallpaper::change_start(){
     if(process) process->write("pause\n");

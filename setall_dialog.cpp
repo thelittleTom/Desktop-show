@@ -5,9 +5,11 @@ setall_dialog::setall_dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::setall_dialog)
 {
+
     ui->setupUi(this);
     connect(ui->right_color,SIGNAL(currentIndexChanged(int)),this,SLOT(slot_right(int)));
     cdisc=new color_disc();
+    setWindowTitle("设置");
 }
 
 setall_dialog::~setall_dialog()
@@ -26,6 +28,17 @@ void setall_dialog::on_buttonBox_accepted()
     {
         emit signal_mute(0);
     }
+
+    int ste=ui->mute_2->checkState();
+    if (ste == Qt::Checked) // "选中"
+    {
+        emit signal_maxsize_stop(1);
+    }
+    else if(ste==Qt::Unchecked)
+    {
+        emit signal_maxsize_stop(0);
+    }
+
     int index=ui->right_color->currentIndex();
     if(index==0){
         QList<QRgb> cs;
@@ -44,14 +57,17 @@ void setall_dialog::on_buttonBox_accepted()
 void setall_dialog::slot_right(int index){
 //    emit signal_right_button(index);
     if(index==0){
-        ui->gridLayout->addWidget(ui->right_btn,0,0);
-        ui->gridLayout->addWidget(ui->mute,1,0);
+        ui->gridLayout->addWidget(ui->right_btn,0,1);
+        ui->gridLayout->addWidget(ui->mute_2,1,1);
+        ui->gridLayout->addWidget(ui->mute,2,1);
+        ui->gridLayout->addWidget(ui->buttonBox,3,1);
         cdisc->close();
     }else if(index==1){
         cdisc->show();
-        ui->gridLayout->addWidget(ui->right_btn,0,0);
-        ui->gridLayout->addWidget(cdisc,1,0);
-        ui->gridLayout->addWidget(ui->mute,2,0);
-
+        ui->gridLayout->addWidget(ui->right_btn,0,1);
+        ui->gridLayout->addWidget(cdisc,1,1);
+        ui->gridLayout->addWidget(ui->mute_2,2,1);
+        ui->gridLayout->addWidget(ui->mute,3,1);
+        ui->gridLayout->addWidget(ui->buttonBox,4,1);
     }
 }

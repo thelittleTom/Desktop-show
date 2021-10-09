@@ -6,59 +6,53 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>365</width>
+    <height>365</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>设置</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QWidget" name="right_btn" native="true">
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="mute_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
        <height>40</height>
       </size>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>right button color</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="right_color">
-        <item>
-         <property name="text">
-          <string>default</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>custom</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>活动窗口最大化时停止播放</string>
+     </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
+   <item row="3" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -68,7 +62,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="1">
     <widget class="QCheckBox" name="mute">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -90,7 +84,66 @@
       </font>
      </property>
      <property name="text">
-      <string>mute</string>
+      <string>静音</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QWidget" name="right_btn" native="true">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>右键轮盘颜色</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="right_color">
+        <item>
+         <property name="text">
+          <string>default</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>custom</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>15</width>
+       <height>0</height>
+      </size>
      </property>
     </widget>
    </item>

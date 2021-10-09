@@ -14,7 +14,7 @@
 #include <QObject>
 #include<QTimer>
 #include<QTime>
-
+#include<wininfo.h>
 struct vipath{
   QString videopath;
   QString imagepath;
@@ -48,7 +48,7 @@ public:
 signals:
 
 private:
-
+    wininfo wo;
     QString arg;
     bool ifshuffle;
     bool ifmute;
@@ -57,13 +57,16 @@ private:
     int list_current;
 
     QWidget *widg;
+    QTimer * timer_win;
 public slots:
     void shuffle(int );
     void mute_slot(int );
+    void maxsize_stop_slot(int );
     void slot_paint(QImage);
     void set_internal(long long int);
     void next_wallpaper();
-
+    void slot_stop();
+    void slot_start();
 };
 
 #endif // WALLPAPER_H
