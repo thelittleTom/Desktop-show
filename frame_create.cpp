@@ -25,7 +25,6 @@ void frame_create::run()
 //    QString  sss= dir1.absolutePath();
     QFile file(vip->videopath);
     QString imgpath=file.fileName()+"img";
-    qDebug()<<imgpath<<"ffmpeg";
     QDir dir2(imgpath);
     if(dir2.exists())
     {
@@ -34,7 +33,7 @@ void frame_create::run()
     else
     {
        bool ok = dir2.mkdir(imgpath);//只创建一级子目录，即必须保证上级目录存在
-       qDebug()<<ok;
+      // qDebug()<<ok;
     }
 
     // ffmpeg相关变量预先定义与分配
@@ -60,14 +59,14 @@ void frame_create::run()
     pAVFrameRGB32 = av_frame_alloc();               // ffmpeg单帧缓存转换颜色空间后的缓存分配
     if(!pAVFormatContext || !pAVPacket || !pAVFrame || !pAVFrameRGB32)
     {
-        qDebug() << "Failed to alloc";
+        //qDebug() << "Failed to alloc";
         goto END;
     }
     // 步骤一：注册所有容器和编解码器（也可以只注册一类，如注册容器、注册编码器等）
     av_register_all();
 
     // 步骤二：打开文件(ffmpeg成功则返回0)
-    qDebug() << "文件:" << fileName << "，是否存在：" << QFile::exists(fileName);
+    //qDebug() << "文件:" << fileName << "，是否存在：" << QFile::exists(fileName);
 //    ret = avformat_open_input(&pAVFormatContext, fileName.toUtf8().data(), pAVInputFormat, 0);
     ret = avformat_open_input(&pAVFormatContext, fileName.toUtf8().data(), 0, 0);
     if(ret)

@@ -11,7 +11,7 @@ class frame_create :public QThread
     Q_OBJECT
 public:
     vipath *vip;
-    explicit frame_create(vipath *,QWidget *parent = nullptr);
+    frame_create(vipath *,QWidget *parent = nullptr);
 signals:
     void signal_frame();
 

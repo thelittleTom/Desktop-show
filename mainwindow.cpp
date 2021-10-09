@@ -8,8 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->scrollArea->setAutoFillBackground(false);
-//    ui->gridLayout_2 = new QGridLayout();//网格布局
-//    ui->scrollArea->widget()->setLayout(ui->gridLayout_2);
 
     ui->scrollArea->verticalScrollBar()->setStyleSheet(
                 "QScrollBar:vertical{width:8px;background:rgba(0,139,139,0%);margin:0px,0px,0px,0px;padding-top:9px;padding-bottom:9px;}"//留9px给上下箭头
@@ -25,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->gridLayout_2->setColumnStretch(1, 1);
     ui->gridLayout_2->setColumnStretch(2, 1);
     ui->gridLayout_2->setColumnStretch(3, 1);
+    setWindowTitle("桌面秀");
     fullPath="./resource";
     QDir dir(fullPath);
     fullPath=dir.absolutePath();
@@ -103,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
      connect(setdialog,SIGNAL(signal_shuffle(int)),wpaper,SLOT(shuffle(int )));
      set_alldia=new setall_dialog();
      connect(set_alldia,SIGNAL(signal_mute(int)),wpaper,SLOT(mute_slot(int )));
+     connect(set_alldia,SIGNAL(signal_maxsize_stop(int)),wpaper,SLOT(maxsize_stop_slot(int )));
     connect(set_alldia,SIGNAL(signal_right_button(QList<QRgb>)),contain->trapaper,SLOT(right_button_slot(QList<QRgb> )));
 
      ui->create_queue_set->setEnabled(false);
@@ -113,7 +113,8 @@ MainWindow::MainWindow(QWidget *parent) :
      connect(ui->add_menu,SIGNAL(signal_video()),this,SLOT(slot_video()));
 
      this->resize(1090,590);
-//     this->setWindowFlag(Qt::WindowStaysOnTopHint);
+
+     qDebug()<<"winid"<<wpaper->windowHandle();
 }
 
 void MainWindow::slot_picture(){
@@ -136,14 +137,14 @@ void MainWindow::slot_video(){
    }
 
    vipath* vip=new vipath(str_utf8,":/text/resource/129.jpg");
-   qDebug()<<vip->videopath;
+   //qDebug()<<vip->videopath;
    wpaper->showwallpaper(*vip);
    add_wallpaper_item(vip);
 }
 void MainWindow::slot_url(){
     bool isOK;
-    QString te= QInputDialog::getText(NULL, "Input url",
-                                      "Please input your url",
+    QString te= QInputDialog::getText(NULL, "输入链接",
+                                      "请输入你的图片链接",
                                       QLineEdit::Normal,
                                       "http://",
                                       &isOK);
@@ -167,7 +168,7 @@ void MainWindow::slot_url(){
 void MainWindow::startRequest(QUrl url)
 {
        reply = manager->get(QNetworkRequest(url));//发起请求
-       qDebug()<<"url"<<url;
+      // qDebug()<<"url"<<url;
        connect(reply, SIGNAL(readyRead()), this, SLOT(httpReadyRead()));
        connect(reply, SIGNAL(finished()), this, SLOT(httpFinished()));
 }
@@ -227,6 +228,7 @@ void MainWindow::add_wallpaper_item(vipath* vip){
     my_listitem * item=new my_listitem(list_item.size(),vip,ai);
     connect(item,SIGNAL(signal_itemClicked(int)),this,SLOT(playvideo(int)));
     connect(item,SIGNAL(signal_delete(int)),this,SLOT(delete_item(int)));
+    connect(item,SIGNAL(signal_set_used()),this,SLOT(on_closebt_clicked()));
 
     connect(item->numbox,SIGNAL(signal_check(int)),this,SLOT(set_number(int)));
     connect(item->numbox,SIGNAL(signal_nocheck(int)),this,SLOT(decrease_number(int)));
@@ -397,14 +399,18 @@ void MainWindow::on_create_queue_clicked()
            if(list_item.at(i)) list_item.at(i)->numbox->show();
         }
         iscreate_queue=false;
-        ui->create_queue->setText("finish");
+        ui->create_queue->setText("完成");
     }else{
         if(isclose){
             wpaper->show();
             contain->show();
             isclose=false;
+            this->setWindowFlag(Qt::WindowStaysOnTopHint);
+           this->show();
+            this->setWindowFlags(windowFlags()&~Qt::WindowStaysOnTopHint);
+            this->show();
         }
-        ui->create_queue->setText("create a queue");
+        ui->create_queue->setText("创建一个循环队列");
         iscreate_queue=true;
         QList<QPair<int,vipath> > lists;
 

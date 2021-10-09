@@ -32,9 +32,12 @@ private:
 private slots:
     void    change_image();
     void delete_it();
+    void set_used();
+    void set_new();
 signals:
     void signal_itemClicked(int);
     void signal_delete(int);
+    void signal_set_used();
 };
 
 #endif // MY_LISTITEM_H
