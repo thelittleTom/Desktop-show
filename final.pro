@@ -6,6 +6,7 @@
 
 QT       += core gui
 
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = final
@@ -40,7 +41,8 @@ SOURCES += \
     setdialog.cpp \
     textpaper.cpp \
     transpaper.cpp \
-    wallpaper.cpp
+    wallpaper.cpp \
+    wininfo.cpp
 
 HEADERS += \
     add_paper_menu.h \
@@ -58,7 +60,8 @@ HEADERS += \
     setdialog.h \
     textpaper.h \
     transpaper.h \
-    wallpaper.h
+    wallpaper.h \
+    wininfo.h
 
 FORMS += \
         color_disc.ui \

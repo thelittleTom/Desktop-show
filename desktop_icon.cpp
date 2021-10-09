@@ -1,13 +1,39 @@
 #include "desktop_icon.h"
 #include<QDebug>
 #include<QDialog>
-QString Desktop_icon::stdPath= QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+QString getdesktop(){
+    QString res;
+    QFile file("/home/kylin/.config/user-dirs.dirs");
+    if(file.open(QFile::ReadWrite))
+    {
+        QTextStream stream(&file);
+        if(!stream.atEnd())
+        {
+            QString x = stream.readAll();
+            QString y = "XDG_DESKTOP_DIR=\"$HOME/";
+            int iPos = x.indexOf(y);              // 返回0
+            // 函数indexOf()会返回要查找的字符串在字符串中第一次出现的位置
+            // 如果没有要查找的字符串，返回-1
+
+            for(int i=iPos+y.length();i<x.length();i++){
+                if(x[i]=='\"') break;
+                res+=x[i];
+
+            }
+        }
+    }
+    file.close();
+    return res;
+}
+QString Desktop_icon::stdPath= QStandardPaths::writableLocation(QStandardPaths::HomeLocation)+"//"+getdesktop();
+
 bool Desktop_icon::than(int a,int b,int c){
     if(a<=b&&b<=c) return true;
     else return false;
 }
 Desktop_icon::Desktop_icon(int i,QString name,QString icon,QWidget *parent)
 {
+    //qDebug()<<stdPath;
     discishow=false;
     index=i;
     this->setParent(parent);
@@ -18,7 +44,7 @@ Desktop_icon::Desktop_icon(int i,QString name,QString icon,QWidget *parent)
     if(file.exists()==false) icon_path=":/text/resource/icons/unknown.png";
 
     this->setFlat(true);
-    this->setMinimumSize(60,60);
+    this->setMinimumSize(80,80);
 
 
     QLabel *testl=new QLabel();
@@ -51,7 +77,8 @@ Desktop_icon::Desktop_icon(int i,QString name,QString icon,QWidget *parent)
     this->show();
 
     QList<QString> names;
-    names<<"copy"<<"open"<<"delete"<<"rename";
+
+    names<<"复制"<<"打开"<<"删除"<<"重命名";
     QList<QRgb> cs;
     for(int i=0;i<4;i++){
         cs.append(qRgba(211,211,211,50));
@@ -87,8 +114,8 @@ void Desktop_icon::rename(){
         }
         else{
 
-            QString ord="\""+stdPath+"/Desktop/"+textt+"\"";
-            QString order="mv \""+stdPath+"/Desktop/"+filename+"\" "+ord;
+            QString ord="\""+stdPath+"//"+textt+"\"";
+            QString order="mv \""+stdPath+"//"+filename+"\" "+ord;
             QProcess::execute(order);
             lineedit->close();
             label->setText(textt);
@@ -119,13 +146,13 @@ void Desktop_icon::send_delete(){
 }
 void Desktop_icon::open(){
     QString stdd=Desktop_icon::stdPath;
-    QString order="xdg-open \""+stdd+"/Desktop/"+filename+"\"";
+    QString order="xdg-open \""+stdd+"//"+filename+"\"";
     QProcess::startDetached(order);
 }
 void Desktop_icon::copy(){
 
     QList<QUrl> copyfile;
-    QUrl url=QUrl::fromLocalFile(stdPath+"/Desktop/"+filename);    //待复制的文件
+    QUrl url=QUrl::fromLocalFile(stdPath+"//"+filename);    //待复制的文件
     if(url.isValid()){
         copyfile.push_back(url);
     }else{
@@ -146,9 +173,9 @@ void Desktop_icon::mousePressEvent(QMouseEvent *event)
             int mid=arc+height()/2-(arc/2)-(arc/4);
         QList<QPoint> textp;
         textp.append(QPoint(-18,-mid));
-        textp.append(QPoint(-24,mid+14));
-        textp.append(QPoint(-27,mid+14));
-        textp.append(QPoint(-36,-mid));
+        textp.append(QPoint(-10,mid+16));
+        textp.append(QPoint(-18,mid+19));
+        textp.append(QPoint(-20,-mid));
         discbtn->setValue(arc+height()/2,arc,20+(height()-100)/10,textp);
         mouseright=true;
         discbtn->setFocus();
@@ -209,7 +236,7 @@ void Desktop_icon::focusInEvent(QFocusEvent *e){
     if(e->type()==Qt::OtherFocusReason){
         clearFocus();
     }
-    qDebug()<<index<<e;
+    //qDebug()<<index<<e;
     this->setStyleSheet("QPushButton{background:rgba(211,211,211,50%);border:1px solid rgba(0,0,0,0);}");
 }
 void Desktop_icon::focusOutEvent(QFocusEvent *e){

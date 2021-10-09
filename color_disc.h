@@ -5,11 +5,12 @@
 #include<QColorDialog>
 #include<QList>
 #include<QColor>
+#include<QFrame>
 namespace Ui {
 class color_disc;
 }
 
-class color_disc : public QWidget
+class color_disc : public QFrame
 {
     Q_OBJECT
 

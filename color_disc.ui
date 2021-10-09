@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>97</height>
+    <width>433</width>
+    <height>60</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
       </size>
      </property>
      <property name="text">
-      <string>for desktup icons</string>
+      <string>图标</string>
      </property>
     </widget>
    </item>
@@ -124,7 +124,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>on wallpaper</string>
+      <string>壁纸</string>
      </property>
     </widget>
    </item>

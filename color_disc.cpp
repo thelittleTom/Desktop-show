@@ -2,7 +2,7 @@
 #include "ui_color_disc.h"
 
 color_disc::color_disc(QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
     ui(new Ui::color_disc)
 {
     ui->setupUi(this);

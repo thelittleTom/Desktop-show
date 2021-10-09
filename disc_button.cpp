@@ -83,10 +83,14 @@ void disc_button:: paintEvent(QPaintEvent *){
     painter.drawText(textpos.at(2),textPathList.at(2));
     painter.drawText(textpos.at(0),textPathList.at(0));
     painter.save();
-    painter.rotate(90);
-    painter.drawText(textpos.at(3),textPathList.at(3));
+    //qDebug()<<textpos.at(3)<<textPathList.at(3);
+    for(int i=0;i<textPathList.at(1).length();i++){
+        painter.drawText(QPoint(-textpos.at(1).y(),textpos.at(1).x()+i*25),textPathList.at(1).at(i));
+    }
+    for(int i=0;i<textPathList.at(3).length();i++){
+        painter.drawText(QPoint(-textpos.at(3).y(),textpos.at(3).x()+i*25),textPathList.at(3).at(i));
+    }
 
-    painter.drawText(textpos.at(1),textPathList.at(1));
     painter.restore();
 }
 double disc_button:: mousedigree(QPoint eventpos){
