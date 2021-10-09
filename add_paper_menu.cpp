@@ -3,7 +3,7 @@
 add_paper_menu::add_paper_menu(QWidget *parent) : QPushButton(parent)
 {
 
-    m_pSetButton  = new QPushButton("edit",this);
+    m_pSetButton  = new QPushButton("添加",this);
     m_pSetButton->setIcon(QIcon(":/text/resource/myicons/icons8-add.png"));
     m_pSetButton->setIconSize(QSize(20,20));
 //    m_pSetButton->setStyleSheet(QString("QPushButton::menu-indicator{image:none;}"
@@ -16,12 +16,10 @@ add_paper_menu::add_paper_menu(QWidget *parent) : QPushButton(parent)
     QAction *url_action = new QAction(add_menu);
     QAction *picture_action = new QAction(add_menu);
     QAction *video_action = new QAction(add_menu);
-//    url_action->setIcon(QIcon(":/resource/mainimage/main_set_net.png"));
-//    picture_action->setIcon(QIcon(":/resource/mainimage/main_set_password.png"));
-//    video_action->setIcon(QIcon(":/resource/mainimage/main_set_about.png"));
-    url_action->setText(tr("add a picture from network"));
-    picture_action->setText(tr("add a picture from local"));
-    video_action->setText(tr("add a video from local"));
+
+    url_action->setText(tr("从网络添加图片"));
+    picture_action->setText(tr("从本地添加图片"));
+    video_action->setText(tr("从本地添加视频"));
     add_menu->addAction(url_action);
     add_menu->addAction(picture_action);
     add_menu->addAction(video_action);
@@ -29,7 +27,7 @@ add_paper_menu::add_paper_menu(QWidget *parent) : QPushButton(parent)
     add_menu->setWindowFlags(add_menu->windowFlags() | Qt::FramelessWindowHint);
     add_menu->setAttribute(Qt::WA_TranslucentBackground);
     add_menu->setStyleSheet(" QMenu {border-radius:5px;font-family:'Arial';font-size:16px;}"
-                     " QMenu::item {height:35px; width:200px;padding-left:25px;border: 1px solid none;}"
+                     " QMenu::item {height:35px; width:140px;padding-left:15px;border: 1px solid none;}"
                      "QMenu::item:selected {background-color:#06AD56;\
                       padding-left:25px;border: 1px solid rgb(65,173,255,60);}");
     m_pSetButton->setMenu(add_menu);
